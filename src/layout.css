@@ -73,8 +73,13 @@
 }
 
 .display-top {
-    flex:1;
+    flex:1.5;
     background-color: blue;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:1em;
 }
 .display-bottom {
     flex: 8;
@@ -86,12 +91,12 @@
     display: flex;
 }
 input {
+    display: block;
     background-color: #F3F4F6;
     border: none;
-    padding: 1em;
-    margin-right: 1em;
+    padding: .5em;
     border-radius: .3em;
-    width: 95%;
+    font-size: .8em;
 }
 input:focus {
     border: 1px solid #3B83F6;
@@ -101,6 +106,21 @@ input:focus {
     flex-direction: column;
     font-size: 1.3em;
     gap: .5em;
+}
+.display-name {
+    color: white;
+    font-size: 2em;
+    
+}
+.display-email, .display-phone, .display-address {
+    color: white;
+    display: flex;
+    gap: .2em;
+    align-items: center;
+}
+.display-personal {
+    display: flex;
+    gap: 1em;
 }
 @media screen and (max-width: 400px) {
     #root {
