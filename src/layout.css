@@ -51,7 +51,7 @@
     justify-content: space-between;
     border-radius: .5em .5em 0 0;
 }
-.personal-details {
+.personal-details, .education-details{
     display: flex;
     flex-direction: column;
     background-color: white;
@@ -60,6 +60,29 @@
     padding: 1em;
     padding-top: 0;
     gap: .5em;
+}
+.education-click, .education-details {
+    display: flex;
+    background-color: white;
+    margin-bottom: 2em;
+    border-radius: 0 0 .5em .5em;
+    padding: 1em;
+    gap: .5em;
+}
+.education-click {
+    align-items: center;
+    justify-content: center;
+}
+
+.add-education {
+    font-size: 1.8em;
+    padding: .3em;
+    background-color: white;
+    border: 1px solid grey;
+    border-radius: 1em;
+}
+.add-education:focus, .add-education:hover {
+    background-color: lightblue;
 }
 .tools {
     margin-bottom: 2em;
@@ -90,6 +113,11 @@
 .show {
     display: flex;
 }
+.dates {
+    display: flex;
+    gap:1em;
+    font-size: 1.3em;
+}
 input {
     display: block;
     background-color: #F3F4F6;
@@ -101,7 +129,13 @@ input {
 input:focus {
     border: 1px solid #3B83F6;
 }
-.name, .email, .phone, .address {
+.start-date, .end-date{
+    display: flex;
+    flex-direction: column;
+    gap: .5em;
+    width: 100%;
+}
+.name, .email, .phone, .address,.school, .degree{
     display: flex;
     flex-direction: column;
     font-size: 1.3em;
@@ -122,6 +156,12 @@ input:focus {
     display: flex;
     gap: 1em;
 }
+.dropdown, .education-dropdown {
+    animation: rotateBack 1s ease forwards;
+}
+.dropdown-rotate, .education-dropdown-rotate  {
+    animation: rotate 1s ease forwards;
+}
 @media screen and (max-width: 400px) {
     #root {
         padding: 0;
@@ -137,23 +177,20 @@ input:focus {
     }
 }
 
-@keyframes slideDown {
+@keyframes rotate {
     0% {
-      opacity: .3;
-      transform: translateY(-10%);
+      transform: rotate(0deg);
     }
     100% {
-      opacity: 1;
-      transform: translateY(0%);
+      transform: rotate(180deg);
     }
   }
-  @keyframes slideUp {
+  
+  @keyframes rotateBack {
     0% {
-      opacity: .3;
-      transform: translateY(0%);
+      transform: rotate(180deg);
     }
     100% {
-      opacity: 1;
-      transform: translateY(-10%);
+      transform: rotate(0deg);
     }
   }
