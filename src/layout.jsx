@@ -4,6 +4,7 @@ import { dropDownIcon , personalItem, educationIcon, workIcon,  emailIcon, phone
 export default function Layout () {
     const [personal, setPersonal] = useState({detail: "person-details", display:"hide"});
     const [personalEducation, setPersonalEducation] = useState({detail:"education", display: "hide"});
+    const [experience, setExperience] = useState({detail: "experience", display:"hide"});
     const [educationDetails, setEducationDetails] = useState({click:false, format:"education-click"});
     const [edit, setEdit] = useState({click:false, format:"education-click"})
     const [educationData, setEducationData] = useState([]) 
@@ -114,6 +115,16 @@ export default function Layout () {
             setDropDown("dropdown")
         }
     }
+    const handleExperienceClick = () => {
+        if(experience.display === "hide"){
+            const newExperience = {...experience, detail: "experience-drop", display:"show"};
+            setExperience(newExperience);
+        }
+        else{
+            const newExperience = {...experience, detail: "experience", display:"hide"};
+            setExperience(newExperience);
+        }
+    }
     const addEducation = () => {
         setEducationData([...educationData, {
             school: "",
@@ -122,7 +133,6 @@ export default function Layout () {
             endDate: "",
             location: "",
             hide: false,
-            index: educationData.length-1
         }])
     }
     const combineClick = () => {
@@ -197,32 +207,28 @@ export default function Layout () {
                     </div>) :
                     <div key={index} className="education-details-two">
                         <div className="school">
-                        <div className="school-title">
-                            School:
-                        </div>
+                        <label htmlFor="school">School:</label>
                         <input type="text" placeholder="Enter school/university" name="school" value ={educationData[index].school} 
                         onChange ={(e) => handleEducationData(e, index)}/>
                     </div>
                     <div className="degree">
-                        <div className="degree-title">
-                            Degree:
-                        </div>
+                        <label htmlFor="degree">Degree:</label>
                         <input type="text" placeholder="Enter Degree/ Field Of Study" name="degree" value= {educationData[index].degree}
                         onChange={(e) => handleEducationData(e,index)}/>
                     </div>
                     <div className="dates">
                         <div className="start-date">
-                            <div className="start-title">
-                                Start Date
-                            </div>
-                            <input type="text" placeholder="Start Date"/>
+                            <label htmlFor="startDate">Start Date:</label>
+                            <input type="text" placeholder="Start Date" name="startDate" value = {educationData[index].startDate} onChange= {(e) => handleEducationData(e,index)}/>
                         </div>
                         <div className="end-date">
-                            <div className="end-title">
-                                End Date
-                            </div>
-                            <input type="text" placeholder="End Date"/>
+                            <label htmlFor="endDate">End Date:</label>
+                            <input type="text" placeholder="End Date" name="endDate" value = {educationData[index].endDate} onChange= {(e) => handleEducationData(e,index)}/>
                         </div>
+                    </div>
+                    <div className="location">
+                        <label htmlFor="location">Location</label>
+                        <input type="text" placeholder="City, Country" name="location" value = {educationData[index].location} onChange= {(e) => handleEducationData(e,index)}/>
                     </div>
                     <div className="buttons">
                             <div className="first-half">
@@ -242,33 +248,29 @@ export default function Layout () {
                 </>
                 ) :<> 
                 <div className="school">
-                    <div className="school-title">
-                        School:
-                    </div>
+                    <label htmlFor="school">School:</label>
                     <input type="text" placeholder="Enter school/university" name="school" value ={educationData[educationData.length-1].school} 
                     onChange ={(e) => handleEducationData(e, educationData.length-1)}/>
                 </div>
                 <div className="degree">
-                    <div className="degree-title">
-                        Degree:
-                    </div>
+                    <label htmlFor="degree">Degree:</label>
                     <input type="text" placeholder="Enter Degree/ Field Of Study" name="degree" value ={educationData[educationData.length-1].degree}
                     onChange ={(e) => handleEducationData(e, educationData.length-1)}/>
                 </div>
                 <div className="dates">
                     <div className="start-date">
-                        <div className="start-title">
-                            Start Date
-                        </div>
-                        <input type="text" placeholder="Start Date"/>
+                        <label htmlFor="startDate">Start Date:</label>
+                        <input type="text" placeholder="Start Date" name="startDate" value = {educationData[educationData.length-1].startDate} onChange= {(e) => handleEducationData(e,educationData.length-1)}/>
                     </div>
                     <div className="end-date">
-                        <div className="end-title">
-                            End Date
-                        </div>
-                        <input type="text" placeholder="End Date"/>
+                        <label htmlFor="endDate">End Date:</label>
+                        <input type="text" placeholder="End Date" name="endDate" value = {educationData[educationData.length-1].endDate} onChange= {(e) => handleEducationData(e,educationData.length-1)}/>
                     </div>
                 </div>
+                <div className="location">
+                        <label htmlFor="location">Location</label>
+                        <input type="text" placeholder="City, Country" name="location" value = {educationData[educationData.length-1].location} onChange= {(e) => handleEducationData(e,educationData.length-1)}/>
+                    </div>
                 <div className="buttons">
                         <div className="first-half">
                             <button className="delete">Delete</button>
@@ -323,7 +325,38 @@ export default function Layout () {
                         }
                     </div>
                 </div>
-                <div className="display-bottom"> </div>
+                <div className="display-bottom">
+                    {
+                        educationData.length !== 0 && (
+                            <div className="education-banner">
+                                Education
+                            </div>
+                        )
+                    }
+                    {educationData.map((education, index)=> {
+                        {if(!education.hide){
+                            return (
+                            <>
+                                <div className="education-display" key = {index}>
+                                    <div className="date-location">
+                                        {education.startDate !== "" &&
+                                        <div className="date">
+                                            {education.startDate} - {education.endDate}
+                                        </div>}
+                                        <div className="city">
+                                            {education.location}
+                                        </div>
+                                    </div>
+                                    <div className="school-degree">
+                                        <div className="school-display"><b>{education.school}</b></div>
+                                        <div className="degree-display">{education.degree}</div>
+                                    </div>
+                                </div>
+                            </>
+                            )
+                        }}
+                    })}
+                </div>
             </div>
             <div className="empty"> </div>
         </>
