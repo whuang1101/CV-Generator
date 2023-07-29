@@ -5,12 +5,16 @@ export default function Layout () {
     const [personal, setPersonal] = useState({detail: "person-details", display:"hide"});
     const [personalEducation, setPersonalEducation] = useState({detail:"education", display: "hide"});
     const [educationDetails, setEducationDetails] = useState({click:false, format:"education-click"});
+    const [edit, setEdit] = useState({click:false, format:"education-click"})
+    const [educationData, setEducationData] = useState([]) 
     const [dropdown, setDropDown] = useState("hello")
     const [educationDrop, setEducationDrop] = useState("hello")
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
+    const [originalEducationData, setOriginalEducationData] = useState([]);
+    
     const handleEducationDetails = () => {
         if(!educationDetails.click){
             const newEducationDetails = {... educationDetails, click:true, format:"education-details"}
@@ -21,6 +25,52 @@ export default function Layout () {
             setEducationDetails(newEducationDetails);
         }
     }
+    const handleEditSave = () => {
+        const newEducationDetails = {... educationDetails, click:false, format:"education-click"}
+        const newEdit = {... edit, click:false, format:"education-details"}
+        setEducationDetails(newEducationDetails);
+        setEdit(newEdit);
+    }
+    const handleEditCancel = () => {
+        const newEducationDetails = {... educationDetails, click:false, format:"education-click"}
+        const newEdit = {... edit, click:false, format:"education-details"}
+        setEducationDetails(newEducationDetails);
+        setEdit(newEdit);
+        setEducationData([originalEducationData]);
+    }
+    const handleEditDelete = (index) => {
+        const newEducationDetails = {... educationDetails, click:false, format:"education-click"}
+        const newEdit = {... edit, click:false, format:"education-details"}
+        setEducationDetails(newEducationDetails);
+        setEdit(newEdit);
+        setEducationData((prevEducationData) => prevEducationData.splice(index, 1));
+    }
+    const handleEdit = () => {
+        if(!edit.click){
+            const newEdit = {... edit, click:true, format:"education-details"}
+            const newEducationDetails = {... educationDetails, click:false, format:"education-details"}
+            setEducationDetails(newEducationDetails);
+            setOriginalEducationData(... educationData);
+            setEdit(newEdit);
+        }
+        else{
+            const newEdit = {... edit, click:false, format:"education-click"}
+            const newEducationDetails = {... educationDetails, click:false, format:"education-click"}
+            setEducationDetails(newEducationDetails);
+            setOriginalEducationData(... educationData);
+            setEdit(newEdit);
+        }
+    }
+    const handleEducationData = (e, index) => {
+        const {name, value} = e.target;
+        const updatedEducationData = [...educationData];
+        updatedEducationData[index] = 
+        {...updatedEducationData[index], 
+        [name]: value} 
+        setEducationData(updatedEducationData)
+    }
+    console.log(educationData)
+    console.log(originalEducationData)
     const handleName = (e) => {
         setName(e.target.value);
     }
@@ -32,6 +82,10 @@ export default function Layout () {
     }
     const handleAddress  = (e) => {
         setAddress(e.target.value)
+    }
+    const cancelHandle = () => {
+        handleEducationDetails();
+        setEducationData((prevEducationData) => prevEducationData.slice(0, -1));
     }
 
 
@@ -59,6 +113,21 @@ export default function Layout () {
             setPersonal(newPersonal)
             setDropDown("dropdown")
         }
+    }
+    const addEducation = () => {
+        setEducationData([...educationData, {
+            school: "",
+            degree: "",
+            startDate: "",
+            endDate: "",
+            location: "",
+            hide: false,
+            index: educationData.length-1
+        }])
+    }
+    const combineClick = () => {
+        handleEducationDetails();
+        addEducation();
     }
 
 
@@ -118,21 +187,73 @@ export default function Layout () {
                 </div>
             </div>
             <div className={[personalEducation.display, educationDetails.format].join(" ")}>
-                {!educationDetails.click ?
-                <button className = "add-education" onClick={handleEducationDetails}>
+                {!educationDetails.click ? (
+                <>
+                    {educationData.map((education, index) => 
+                    !edit.click ?
+                    (<div key={index} className="education-snippet" onClick={handleEdit}>
+                        <div className="school-name">{education.school}</div>
+                        <button className="eye">Hide</button>
+                    </div>) :
+                    <div key={index} className="education-details-two">
+                        <div className="school">
+                        <div className="school-title">
+                            School:
+                        </div>
+                        <input type="text" placeholder="Enter school/university" name="school" value ={educationData[index].school} 
+                        onChange ={(e) => handleEducationData(e, index)}/>
+                    </div>
+                    <div className="degree">
+                        <div className="degree-title">
+                            Degree:
+                        </div>
+                        <input type="text" placeholder="Enter Degree/ Field Of Study" name="degree" value= {educationData[index].degree}
+                        onChange={(e) => handleEducationData(e,index)}/>
+                    </div>
+                    <div className="dates">
+                        <div className="start-date">
+                            <div className="start-title">
+                                Start Date
+                            </div>
+                            <input type="text" placeholder="Start Date"/>
+                        </div>
+                        <div className="end-date">
+                            <div className="end-title">
+                                End Date
+                            </div>
+                            <input type="text" placeholder="End Date"/>
+                        </div>
+                    </div>
+                    <div className="buttons">
+                            <div className="first-half">
+                                <button className="delete" onClick={(index) =>handleEditDelete(index)}>Delete</button>
+                            </div>
+                            <div className="second-half">
+                                <button className="cancel" onClick={handleEditCancel}>Cancel</button>
+                                <button className="save" onClick={handleEditSave}>Save</button>
+                            </div>
+                        </div>
+                    </div>
+                    )}
+                    {!edit.click &&
+                    (<button className="add-education" onClick={(e) => combineClick(e)}>
                     + Education
-                </button>: <> 
+                    </button>)}
+                </>
+                ) :<> 
                 <div className="school">
                     <div className="school-title">
                         School:
                     </div>
-                    <input type="text" placeholder="Enter school/university"/>
+                    <input type="text" placeholder="Enter school/university" name="school" value ={educationData[educationData.length-1].school} 
+                    onChange ={(e) => handleEducationData(e, educationData.length-1)}/>
                 </div>
                 <div className="degree">
                     <div className="degree-title">
                         Degree:
                     </div>
-                    <input type="text" placeholder="Enter Degree/ Field Of Study"/>
+                    <input type="text" placeholder="Enter Degree/ Field Of Study" name="degree" value ={educationData[educationData.length-1].degree}
+                    onChange ={(e) => handleEducationData(e, educationData.length-1)}/>
                 </div>
                 <div className="dates">
                     <div className="start-date">
@@ -148,6 +269,15 @@ export default function Layout () {
                         <input type="text" placeholder="End Date"/>
                     </div>
                 </div>
+                <div className="buttons">
+                        <div className="first-half">
+                            <button className="delete">Delete</button>
+                        </div>
+                        <div className="second-half">
+                            <button className="cancel" onClick={cancelHandle}>Cancel</button>
+                            <button className="save" onClick={handleEducationDetails}>Save</button>
+                        </div>
+                    </div>
                 </>
                 }
             </div>
