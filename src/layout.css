@@ -3,18 +3,17 @@
   padding: 0;
 }
 #root {
-  background-color: black;
-  height: 100vh;
+  background-color: rgb(243,244,246);
   display: flex;
   justify-content: center;
   gap: 1.5em;
 }
 .input-information {
     margin: 1em 0 1em 0;
+    min-height: 100vh;
   flex: 1.5;
   max-width: 500px;
   max-height: 1100px;
-  background-color: grey;
   flex-direction: column;
   overflow: scroll;
 }
@@ -23,12 +22,12 @@
   flex: 2;
   max-width: 800px;
   max-height: 1100px;
+  height: 1100px;
   background-color: white;
   display: flex;
   flex-direction: column;
 }
 
-.tools,
 .person-details,
 .education,
 .experience,
@@ -37,6 +36,7 @@
 .experience-drop {
   background-color: white;
   padding: 0.5em;
+
 }
 .person-details,
 .education,
@@ -62,7 +62,8 @@
   border-radius: 0.5em 0.5em 0 0;
 }
 .personal-details,
-.education-details {
+.education-details,
+.education-sad {
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -73,15 +74,26 @@
   gap: 0.5em;
 }
 .education-click,
-.education-details {
+.education-details,
+.experience-click,
+.experience-details,
+.education-sad,
+.experience-sad{
   display: flex;
   background-color: white;
   margin-bottom: 2em;
   border-radius: 0 0 0.5em 0.5em;
-  padding: 1em;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 1em;
   gap: 0.5em;
   margin-top: 0;
   padding-top: 0;
+}
+.experience-details,
+.experience-sad {
+    flex-direction: column;
+    padding-bottom: 1em;
 }
 .education-details-two{
     display: flex;
@@ -95,27 +107,37 @@
     margin-top: 0;
     padding-top: 0;
 }
-.education-click {
+.education-click, .experience-click {
   align-items: center;
   font-size: 0.8em;
   justify-content: center;
   flex-direction: column;
 }
 
-.add-education {
-  font-size: 1.8em;
+
+.add-education, .add-experience{
   padding: 0.3em;
   background-color: white;
   border: 1px solid grey;
   border-radius: 1em;
+  font-size: 1.3rem;
+  width: 10em;
+  margin-bottom: 1em ;
+  margin-top: .7em;
 }
 .add-education:focus,
-.add-education:hover {
+.add-education:hover,
+.add-experience:focus,
+.add-experience:hover {
   background-color: lightblue;
 }
 .tools {
   margin-bottom: 2em;
   border-radius: 0.5em;
+}
+.trash {
+    display: flex;
+    flex-direction: flex;
 }
 .title {
   display: flex;
@@ -135,15 +157,15 @@ margin-bottom: 0;
     gap: 2em;
 }
 .delete, .save, .cancel {
-    font-size: 1.1em;
+    font-size: 1.1rem;
     padding: .3em;
     border-radius: 1em;
     border: 2px solid black;
 }
 
 .display-top {
-  flex: 1.5;
-  background-color: blue;
+  flex: 1.2;
+  background-color: black;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -155,6 +177,7 @@ margin-bottom: 0;
   display: flex;
   flex-direction: column;
   padding: 2em;
+  padding-top: 0;
 }
 .hide {
   display: none;
@@ -165,32 +188,35 @@ margin-bottom: 0;
 .dates{
   display: flex;
   gap: 1em;
-  font-size: 1.3em;
+  font-size: 1.3rem;
 }
-.education-display {
+.education-display, .experience-display {
     display: flex;
     gap: 1em;
     padding-top: 1.5em;
-    font-size: 1.1em;
+    font-size: 1.2em;
  
 }
 .date-location {
-    flex:2.5;
+    flex:3;
 }
 .school-degree{
     flex: 7
     
 }
-input {
+input, textarea {
   display: block;
   background-color: #f3f4f6;
   border: none;
   padding: 0.5em;
-  border-radius: 0.3em;
+  border-radius: 0.7em;
   font-size: 0.8em;
 }
-input:focus {
+input:focus, textarea:focus{
   border: 1px solid #3b83f6;
+}
+.position-display {
+    padding-bottom: .4em;
 }
 .start-date,
 .end-date {
@@ -205,10 +231,13 @@ input:focus {
 .address,
 .school,
 .degree,
-.location {
+.location,
+.company,
+.position,
+.description {
   display: flex;
   flex-direction: column;
-  font-size: 1.3em;
+  font-size: 1.3rem;
   gap: 0.5em;
 }
 .display-name {
@@ -227,6 +256,15 @@ input:focus {
   display: flex;
   gap: 1em;
 }
+.education-sad,.experience-sad {
+    height: 100%;
+    width: 100%;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+}
+.experience-sad {
+    padding-bottom: 1em;
+}
 .dropdown,
 .education-dropdown {
   animation: rotateBack 1s ease forwards;
@@ -235,19 +273,54 @@ input:focus {
 .education-dropdown-rotate {
   animation: rotate 1s ease forwards;
 }
-.education-snippet{
-    border: 1px dotted black;
+.education-snippet, .experience-snippet{
+    border: 1px solid black;
     font-size: 2em;
     width: 100%;
     padding: .5em;
     display: flex;
     justify-content: space-between;
 }
-.education-banner {
+.tools {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    border-radius: 1em;
+}
+.load-example, .clear {
+    display: flex;
+    font-size: 1.3em;
+    padding: 1em;
+    
+}
+.clear{
+    border-radius: 1em;
+    background-color: red;
+    color:white;
+}
+.clear:hover, .load-example:hover {
+    animation: slowlyGrow .5s ease-in forwards;
+}
+.clear:hover {
+    color: white;
+}
+.load-example:hover {
+    color: black;
+    border-radius: 1em;
+  }
+.load-example{
+    flex: 1;
+}
+.clear{
+    flex: 1;
+}
+.banner {
     display: flex;
     justify-content: center;
     background-color: rgb(233, 231, 231);
     padding: .2em;
+    margin-top: 2em;
     font-size: 1.5em;
 }
 @media screen and (max-width: 500px) {
@@ -266,6 +339,9 @@ input:focus {
     padding: 0;
     margin: 0;
   }
+  *:hover{
+  animation: none;
+} 
 }
 
 @keyframes rotate {
@@ -284,4 +360,24 @@ input:focus {
   100% {
     transform: rotate(0deg);
   }
+}
+
+@keyframes slowlyGrow {
+    0%{ 
+        transform: scale(1);
+    }
+    100%{
+        transform: scale(1.1);
+    }
+    
+}
+@keyframes slowlyShrink {
+    0%{ 
+        transform: scale(1.1);
+    }
+    100%{
+        transform: scale(1.0);
+        
+    }
+    
 }
