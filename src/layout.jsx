@@ -3,6 +3,7 @@ import ResumeIcon, { dropDownIcon , personalItem, educationIcon, workIcon,  emai
 export default function Layout () {
     const [personal, setPersonal] = useState({detail: "person-details", display:"hide"});
     const [mobile, setMobile] = useState("show");
+    const [fixClear, setFixClear] = useState(true);
     const [resume, setResume] = useState("");
     const [personalEducation, setPersonalEducation] = useState({detail:"education", display: "hide"});
     const [experience, setExperience] = useState({detail: "experience", display:"hide"});
@@ -101,6 +102,7 @@ export default function Layout () {
     const handleExpSave = (index) => {
         if(experienceData[index].company !== ""){
             handleExperienceDetails();
+            setFixClear(!fixClear)
         }
     }
     const handleExperienceDetails = () => {
@@ -131,10 +133,12 @@ export default function Layout () {
         edit: false} 
         setEducationData(updatedEducationData)
         handleEditOne();}
+        setFixClear(!fixClear)
     }
     const handleSave = (index) => {
         if(educationData.school !== ""){
             handleEducationDetails();
+            setFixClear(!fixClear)
         } 
     }
     const handleExpEditSave = (index) => {
@@ -145,28 +149,33 @@ export default function Layout () {
         edit: false} 
         setExperienceData(updatedExperience)
         handleExperienceEdit();}
+        setFixClear(!fixClear)
     }
     const handleEditCancel = () => {
         setEducationData(originalEducationData);
         handleEditOne();
+        setFixClear(!fixClear)
     }
     const handleEditExpCancel = () => {
         setExperienceData(originalExperienceData);
         handleExperienceEdit();
+        setFixClear(!fixClear)
     }
     const handleEditDelete = (index) => {
         handleEditOne();
+        setFixClear(!fixClear)
         setEducationData((prevEducation) => {
             const updatedEducation = [...prevEducation];
             updatedEducation.splice(index, 1);
             return updatedEducation;
-          });
+        });
     }
     const handleEditExpDelete = (index) => {
         handleExperienceEdit();
         setExperienceData((prevExperience) => {
           const updatedExperience = [...prevExperience];
           updatedExperience.splice(index, 1);
+          setFixClear(!fixClear)
           return updatedExperience;
         });
       };
@@ -177,6 +186,7 @@ export default function Layout () {
         newerEducationData[index] = { ...newEducationData[index], edit: false }
         setEducationData(newEducationData);
         setOriginalEducationData([... newerEducationData]);
+        setFixClear(!fixClear)
         handleEditOne();
     };
     const handleOneExperience = (index) => {
@@ -187,6 +197,7 @@ export default function Layout () {
         setExperienceData(newExperience);
         setOriginalExperienceData([... newerExperience]);
         handleExperienceEdit();
+        setFixClear(!fixClear)
     }
     
     const handleEdit = () => {
@@ -236,10 +247,12 @@ export default function Layout () {
     const cancelHandle = () => {
         handleEducationDetails();
         setEducationData((prevEducationData) => prevEducationData.slice(0, -1));
+        setFixClear(!fixClear)
     }
     const cancelHandleExperience = () => {
         handleExperienceDetails();
         setExperienceData((prevExperience) => prevExperience.slice(0,-1));
+        setFixClear(!fixClear)
     }
 
 
@@ -302,6 +315,7 @@ export default function Layout () {
     }
 
     const combineClick = () => {
+        setFixClear(!fixClear)
         handleEducationDetails();
         addEducation();
     }
@@ -309,6 +323,7 @@ export default function Layout () {
     const handleExperienceButton = () => {
         handleExperienceDetails();
         addExperience();
+        setFixClear(!fixClear)
     }
     function loadExample() {
         setEducationData ([{
@@ -355,12 +370,14 @@ export default function Layout () {
         setPhone("123-456-7890")
     }
     function clearForm(){
-        setExperienceData([]);
-        setEducationData([]);
-        setName("")
-        setAddress("")
-        setEmail("")
-        setPhone("")
+        if(fixClear){
+            setExperienceData([]);
+            setEducationData([]);
+            setName("")
+            setAddress("")
+            setEmail("")
+            setPhone("")
+        }
     }
     return (
         <>
