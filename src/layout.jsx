@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { dropDownIcon , personalItem, educationIcon, workIcon,  emailIcon, phoneIcon, addressIcon,openEye,closedEye, trashIconWhite, trashIconBlack} from "./assets/Icons";
-
+import ResumeIcon, { dropDownIcon , personalItem, educationIcon, workIcon,  emailIcon, phoneIcon, addressIcon,openEye,closedEye, trashIconWhite, trashIconBlack, backIcon} from "./assets/Icons";
 export default function Layout () {
     const [personal, setPersonal] = useState({detail: "person-details", display:"hide"});
+    const [mobile, setMobile] = useState("show");
+    const [resume, setResume] = useState("");
     const [personalEducation, setPersonalEducation] = useState({detail:"education", display: "hide"});
     const [experience, setExperience] = useState({detail: "experience", display:"hide"});
     const [experienceDetails, setExperienceDetails] = useState ({format: "experience-click", click: false})
@@ -21,6 +22,24 @@ export default function Layout () {
     const [address, setAddress] = useState("");
     const [originalEducationData, setOriginalEducationData] = useState([]);
     const [originalExperienceData, setOriginalExperienceData] = useState([]);
+    const handleEditScreen = () => {
+        if(mobile === "show")
+        {setMobile("hide-mobile")}
+        else{
+        setMobile("show")
+        }
+    }
+    const handleResumeScreen = () => {
+        if(resume === "show")
+        {setResume("hide-mobile")}
+        else{
+        setResume("show")
+        }
+    }
+    const handleMobileClick = () => {
+        handleEditScreen();
+        handleResumeScreen();
+    }
     const handleHideClick = (event,index) => {
         event.stopPropagation();
         if(!educationData[index].hide){
@@ -186,7 +205,6 @@ export default function Layout () {
             setEdit(newEdit);
         }
     }
-    console.log(experienceData)
     const handleEducationData = (e, index) => {
         const {name, value} = e.target;
         const updatedEducationData = [...educationData];
@@ -346,13 +364,18 @@ export default function Layout () {
     }
     return (
         <>
-            <div className="empty"> </div>
-            <div className="input-information">
+            <div className="empty"></div>
+            <div className={[mobile, "input-information"].join(" ")}>
+            <div className="resume" onClick={handleMobileClick}>
+                <div className="resume-display">Display Resume</div>
+                <div className="resume-icon"><ResumeIcon/></div>
+                </div>
             <div className="tools">
             <div className="load-example" onClick={loadExample} tabIndex={0} onKeyDown={loadExample}>Load Example</div>
             <div className="clear" onClick={clearForm} tabIndex={0} onKeyDown={clearForm}>
                 <div className="trash">
-                    {color === "white " ?<div className="icon">{trashIconBlack}</div> :
+                    {color === "white " ?
+                    <div className="icon">{trashIconBlack}</div> :
                     <div className="icon">{trashIconWhite}</div>
                      }
                 <div className="clear-text">Clear Form
@@ -393,7 +416,7 @@ export default function Layout () {
                     <div className="personal-title">
                         Address:
                     </div>
-                    <input type="text" placeholder="City, Country" />
+                    <input type="text" placeholder="City, Country" onChange={handleAddress} value={address} />
                 </div>
             </div>
             <div className= {personalEducation.detail} onClick={handleEducationClick} tabIndex={0} role="button" onKeyDown={handleEducationKeyDown}>
@@ -608,8 +631,9 @@ export default function Layout () {
             }
             </div>
             </div>
-            <div className="display-information" id="print-content">
+            <div className={[resume, "display-information"].join(" ")} id="print-content">
                 <div className="display-top">
+                <div className="back-icon" onClick={handleMobileClick}>{backIcon}</div>
                         {name !== "" ? (
                         <div className="display-name">{name}</div>
                         ) : (
