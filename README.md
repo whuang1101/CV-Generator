@@ -4,8 +4,9 @@ In my first React Project, I made a CV maker.
 ### Web Version
 ![image](https://github.com/whuang1101/CV-Generator/assets/91977590/5e01cfab-d99d-4e37-b84b-1c0fee0e6e5a)
 ### Mobile Version
-![image](https://github.com/whuang1101/CV-Generator/assets/91977590/f979ecdd-5274-49e5-b047-63560121c8b1)
-![image](https://github.com/whuang1101/CV-Generator/assets/91977590/00146b63-533f-494b-8f88-3f369de97f36)
+![image](https://github.com/whuang1101/CV-Generator/assets/91977590/84ab7d86-edbe-4bc4-8cbf-7ea43c05b90d)
+![image](https://github.com/whuang1101/CV-Generator/assets/91977590/9e402254-99c5-49e8-be83-9173d26dd94d)
+
 
 ## Features
 - Load an Example CV
