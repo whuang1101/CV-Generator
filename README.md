@@ -12,6 +12,7 @@ In my first React Project, I made a CV maker.
 - Load an Example CV
 - Clear the entire CV
 - Displays updates in real-time
+- Responsive Layout
 
 ## Technologies Used
 - ReactJS
