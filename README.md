@@ -19,4 +19,4 @@ In my first React Project, I made a CV maker.
 - JS, HTML CSS
 
 ## Projects
-[Next Project! PokeMemory](https://github.com/whuang1101/PokeMemory)
+[Next Project: PokeMemory](https://github.com/whuang1101/PokeMemory)
